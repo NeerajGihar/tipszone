@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Log In{% endblock title %}
+<!-- =======================
+Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Inner intro START -->
+{% block body %}
+
+
+<section>
+	<div class="container">
+		<div class="row">
+      <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+        <div class="p-4 p-sm-5 bg-primary bg-opacity-10 rounded">
+					<h2>Log in to your account</h2>
+					<!-- Form START -->
+					<form class="mt-4" action='/login' method='POST'>{% csrf_token %}
+						<!-- Email -->
+						<div class="mb-3">
+							<label class="form-label" for="loginusername">Username</label>
+							<input type="text" class="form-control" id="loginusername" name="loginusername"placeholder="Username">
+						</div>
+						<!-- Password -->
+						<div class="mb-3">
+							<label class="form-label" for="exampleInputPassword1">Password</label>
+							<input type="password" class="form-control" id="exampleInputPassword1" name="loginpassword" placeholder="Password">
+						</div>
+						<!-- Button -->
+						<div class="row align-items-center">
+							<div class="col-sm-4">
+								<button type="submit" class="btn btn-primary">Sign me in</button>
+							</div>
+							<div class="col-sm-8 text-sm-end">
+								<span>Don't have an account? <a href="/signup"><u>Sign up</u></a></span>
+							</div>
+						</div>
+					</form>
+					<!-- Form END -->
+					<hr>
+					<!-- Social-media btn -->
+        </div>
+      </div>
+    </div>
+	</div>
+</section>
+<!-- =======================
+Inner intro END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+{% endblock body %}

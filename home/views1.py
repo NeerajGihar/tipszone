@@ -21,7 +21,7 @@ def Contact(request):
             Contact.save()
             messages.success(request,"Your message has been successfully sent")
     
-    return render(request,'home/contact.html')
+    return render(request,'blog/contact.html')
 
 def about(request):
     return render(request,'home/about.html')
@@ -35,8 +35,10 @@ def search(request):
         allPostauthor = Post.objects.filter(author__icontains=query)
         allPostcontent = Post.objects.filter(content__icontains=query)
         allPosts = allPostauthor.union(allPostcontent,allPostTitle)
-    if allPosts.count()==0:
-        messages.warning(request,"No search results found. Please refine your query.") 
+    if allPosts.count() == 2:
+        messages.warning(request,"No search results found. Please refine your query.")
+        return render(request,'home/search.html')
+    print(len(allPosts))
     param = {'allPosts':allPosts,'query':query}
     return render(request,'home/search.html',param)
 
@@ -51,28 +53,28 @@ def SignUp(request):
         usercheck = username
         if len(username)>10:
             messages.error(request,' Your user name must be under 10 characters')
-            return redirect('/blog')
+            return redirect('/signup')
         if not username.isalnum():
             messages.error(request,' User name should only contain letters and numbers')
-            return redirect('/blog')
+            return redirect('/signup')
 
         if (pass1 != pass2):
             messages.error(request,' Passwords do not match')
-            return redirect('/blog')
+            return redirect('/signup')
         
         try:
             user= User.objects.get(username=usercheck)
             messages.error(request,' User name already used try another!')
-            return redirect('/blog')
+            return redirect('/signup')
         except User.DoesNotExist:
             myuser = User.objects.create_user(username,email,pass1)
             myuser.first_name = fname
             myuser.last_name = lname
             myuser.save()
             messages.success(request,'Your TipZone account has been successfully created')
-            return redirect('/blog')
+            return redirect('/signup')
     else:
-        return HttpResponse('404 Error not found')
+        return render(request,'blog/signup.html')
 
 def LogIn(request):
     if request.method == "POST":
@@ -85,9 +87,9 @@ def LogIn(request):
             return redirect('blog/')
         else:
             messages.error(request," Invalid credentials! Please try again")
-            return redirect('blog/')
+            return redirect('/login')
     else:
-        return HttpResponse("404 Error Page Not Found")
+        return render(request,'blog/signin.html')
 
 
     

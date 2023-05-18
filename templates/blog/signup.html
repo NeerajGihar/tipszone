@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock title %}
+
+{% block body %}
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+<!-- =======================
+Inner intro START -->
+<section>
+	<div class="container">
+		<div class="row">
+      <div class="col-md-10 col-lg-8 col-xl-6 mx-auto">
+        <div class="bg-primary bg-opacity-10 rounded p-4 p-sm-5">
+					<h2>Create your free account </h2>
+					<!-- Form START -->
+					<form class="mt-4" action="/signup" method='post'>{% csrf_token %}
+						<!-- Email -->
+						<div class="mb-3">
+							<label class="form-label" for="username">Username</label>
+							<input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username" name="username" required>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="fname">Fist Name</label>
+							<input type="text" class="form-control" id="fname" aria-describedby="emailHelp" placeholder="First Name" name="fname" required>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="lname">Last Name</label>
+							<input type="text" class="form-control" id="lname" aria-describedby="emailHelp" placeholder="Last Name" name="lname" required>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label" for="exampleInputEmail1">Email address</label>
+							<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="E-mail" name="email" required>
+							<small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+						</div>
+
+
+						<!-- Password -->
+						<div class="mb-3">
+							<label class="form-label" for="exampleInputPassword1">Password</label>
+							<input type="password" class="form-control" id="exampleInputPassword1" placeholder="*********" name="pass1" required>
+						</div>
+						<!-- Password -->
+						<div class="mb-3">
+							<label class="form-label" for="exampleInputPassword2">Confirm Password</label>
+							<input type="password" class="form-control" id="exampleInputPassword2" placeholder="*********" name="pass2" required>
+						</div>
+						<!-- Checkbox -->
+				
+						<!-- Button -->
+						<div class="row align-items-center">
+							<div class="col-sm-4">
+								<button type="submit" class="btn btn-primary">Sign me up</button>
+							</div>
+							<div class="col-sm-8 text-sm-end">
+								<span>Have an account? <a href="/login"><u>Sign in</u></a></span>
+							</div>
+						</div>
+					</form>
+					<!-- Form END -->
+					<hr>
+					<!-- Social-media btn -->
+        </div>
+      </div>
+    </div>
+	</div>
+</section>
+<!-- =======================
+Inner intro END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+{% endblock body %}

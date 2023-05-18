@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% block title %}Latest Posts{% endblock title %}
+{% block body %}
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+	<!-- =======================
+Inner intro START -->
+	<section class="pt-4">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					{% if user.is_authenticated %}
+					<div class="bg-danger bg-opacity-10 p-4 text-center rounded-3">
+						<h1 class="text-danger m-0">Explore Our Latest Posts {{request.user.get_full_name}}</h1>
+						<p class="lead m-0">Checkout our latest post</p>
+					</div>
+					{% else %}
+					<div class="bg-danger bg-opacity-10 p-4 text-center rounded-3">
+						<h1 class="text-danger m-0">Posts</h1>
+						<p class="lead m-0">Checkout our latest post</p>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- =======================
+Inner intro END -->
+
+	<!-- =======================
+Main content START -->
+	<section class="position-relative pt-0">
+		<div class="container" >
+			<div class="row">
+				<!-- Main Post START -->
+				<div class="col-lg-9">
+					<div class="row gy-4">
+						{% for post in allPosts reversed %}
+						<!-- Card item START -->
+						<div class="col-sm-6">
+							<div class="card">
+								<!-- Card img -->
+								<div class="position-relative">
+									<img class="card-img" src="/media/{{post.thumbnail}}" alt="Card image">
+									<div class="card-img-overlay d-flex align-items-start flex-column p-3">
+										<!-- Card overlay bottom -->
+										<div class="w-100 mt-auto">
+											<!-- Card category -->
+											<a href="#" class="badge text-bg-warning mb-2"><i class="fas
+													fa-circle me-2 small fw-bold"></i>Technology</a>
+										</div>
+									</div>
+								</div>
+								<div class="card-body px-0 pt-3">
+									<h4 class="card-title"><a href="/blog/{{post.slug}}" class="btn-link
+											text-reset fw-bold">{{post.title}}</a></h4>
+									<p class="card-text"><div class="preview">{{post.content|safe|truncatechars:250}}</div></p>
+									<!-- Card info -->
+									<ul class="nav nav-divider align-items-center d-none
+										d-sm-inline-block">
+										<li class="nav-item">
+											<div class="nav-link">
+												<div class="d-flex align-items-center position-relative">
+													<div class="avatar avatar-xs">
+														<img class="avatar-img rounded-circle"
+															src="/media/assets/images/avatar/01.jpg" alt="avatar">
+													</div>
+													<span class="ms-3">by <a href="#" class="stretched-link text-reset
+															btn-link">Samuel</a></span>
+												</div>
+											</div>
+										</li>
+										<li class="nav-item">{{post.timestamp}}</li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Card item END -->
+						</div>
+
+						{% endfor %}
+					</div>
+				</div>
+				<!-- Main Post END -->
+				<!-- Sidebar START -->
+				<div class="col-lg-3 mt-5 mt-lg-0">
+					<div >
+						<!-- Trending topics widget START -->
+						<div>
+							<h4 class="mb-3">Trending topics</h4>
+							<!-- Category item -->
+							<div class="text-center mb-3 card-bg-scale position-relative
+								overflow-hidden rounded"
+								style="background-image:url(/media/assets/images/blog/4by3/01.jpg);
+								background-position: center left; background-size: cover;">
+								<div class="bg-dark-overlay-4 p-3">
+									<a href="#" class="stretched-link btn-link fw-bold text-white h5">Travel</a>
+								</div>
+							</div>
+							<!-- Category item -->
+							<div class="text-center mb-3 card-bg-scale position-relative
+								overflow-hidden rounded"
+								style="background-image:url(/media/assets/images/blog/4by3/02.jpg);
+								background-position: center left; background-size: cover;">
+								<div class="bg-dark-overlay-4 p-3">
+									<a href="#" class="stretched-link btn-link fw-bold text-white h5">Business</a>
+								</div>
+							</div>
+							<!-- Category item -->
+							<div class="text-center mb-3 card-bg-scale position-relative
+								overflow-hidden rounded"
+								style="background-image:url(/media/assets/images/blog/4by3/03.jpg);
+								background-position: center left; background-size: cover;">
+								<div class="bg-dark-overlay-4 p-3">
+									<a href="#" class="stretched-link btn-link fw-bold text-white h5">Marketing</a>
+								</div>
+							</div>
+							<!-- Category item -->
+							<div class="text-center mb-3 card-bg-scale position-relative
+								overflow-hidden rounded"
+								style="background-image:url(/media/assets/images/blog/4by3/04.jpg);
+								background-position: center left; background-size: cover;">
+								<div class="bg-dark-overlay-4 p-3">
+									<a href="#" class="stretched-link btn-link fw-bold text-white h5">Photography</a>
+								</div>
+							</div>
+							<!-- Category item -->
+							<div class="text-center mb-3 card-bg-scale position-relative
+								overflow-hidden rounded"
+								style="background-image:url(/media/assets/images/blog/4by3/05.jpg);
+								background-position: center left; background-size: cover;">
+								<div class="bg-dark-overlay-4 p-3">
+									<a href="#" class="stretched-link btn-link fw-bold text-white h5">Sports</a>
+								</div>
+							</div>
+							<!-- View All Category button -->
+							<div class="text-center mt-3">
+								<a href="#" class="fw-bold text-muted text-primary-hover"><u>View all
+										categories</u></a>
+							</div>
+						</div>
+						<!-- Trending topics widget END -->
+
+						<div class="row">
+							<!-- Recent post widget START -->
+							<div class="col-12 col-sm-6 col-lg-12">
+								<h4 class="mt-4 mb-3">Recent post</h4>
+								<!-- Recent post item -->
+								<div class="card mb-3">
+									<div class="row g-3">
+										<div class="col-4">
+											<img class="rounded"
+												src="/media/assets/images/blog/4by3/thumb/01.jpg" alt="">
+										</div>
+										<div class="col-8">
+											<h6><a href="post-single-2.html" class="btn-link stretched-link
+													text-reset fw-bold">The pros and cons of business agency</a></h6>
+											<div class="small mt-1">May 17, 2022</div>
+										</div>
+									</div>
+								</div>
+								<!-- Recent post item -->
+								<div class="card mb-3">
+									<div class="row g-3">
+										<div class="col-4">
+											<img class="rounded"
+												src="/media/assets/images/blog/4by3/thumb/02.jpg" alt="">
+										</div>
+										<div class="col-8">
+											<h6><a href="post-single-2.html" class="btn-link stretched-link
+													text-reset fw-bold">5 reasons why you shouldn't startup</a></h6>
+											<div class="small mt-1">Apr 04, 2022</div>
+										</div>
+									</div>
+								</div>
+								<!-- Recent post item -->
+								<div class="card mb-3">
+									<div class="row g-3">
+										<div class="col-4">
+											<img class="rounded"
+												src="/media/assets/images/blog/4by3/thumb/03.jpg" alt="">
+										</div>
+										<div class="col-8">
+											<h6><a href="post-single-2.html" class="btn-link stretched-link
+													text-reset fw-bold">Ten questions you should answer truthfully.</a></h6>
+											<div class="small mt-1">Jun 30, 2022</div>
+										</div>
+									</div>
+								</div>
+								<!-- Recent post item -->
+								<div class="card mb-3">
+									<div class="row g-3">
+										<div class="col-4">
+											<img class="rounded"
+												src="/media/assets/images/blog/4by3/thumb/04.jpg" alt="">
+										</div>
+										<div class="col-8">
+											<h6><a href="post-single-2.html" class="btn-link stretched-link
+													text-reset fw-bold">Five unbelievable facts about money.</a></h6>
+											<div class="small mt-1">Nov 29, 2022</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Recent post widget END -->
+
+							<!-- ADV widget START -->
+							<div class="col-12 col-sm-6 col-lg-12 my-4">
+								<a href="#" class="d-block card-img-flash">
+									<img src="/media/assets/images/adv.png" alt="">
+								</a>
+								<div class="smaller text-end mt-2">ads via <a href="#"
+										class="text-muted"><u>Bootstrap</u></a></div>
+							</div>
+							<!-- ADV widget END -->
+						</div>
+					</div>
+				</div>
+				<!-- Sidebar END -->
+			</div> <!-- Row end -->
+		</div>
+	</section>
+	<!-- =======================
+Main content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+{% endblock body %}
+{% block JS %}
+<script>
+	let previews=document.getElementsByClassName('preview');
+	Array.from(previews).forEach((element)=>{
+	 element.innerHTML=element.innerText;
+ })</script>
+{% endblock JS %}

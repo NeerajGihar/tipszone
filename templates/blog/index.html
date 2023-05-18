@@ -1,67 +1,248 @@
 {% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block inhead %}
 
-{% block title %}Home{% endblock title%}
-{% block homeactive %}active{% endblock homeactive %}
-{% block CSS %}
+{% endblock inhead %}
+{% block body %}
 
-{% endblock CSS %}
 
-{% block body%}
-{% load humanize %}
-<div class="bg-light">
-{% if user.is_authenticated %}
-<div class="container bg-dark rounded  shadow">
-    <div class="jumbotron  my-3 p-3 text-white rounded bg-dark" style="font-family:Noto Color Emoji;">
-      <h1 class="display-4 font-italic">Welcome to TipsZone! {{request.user}}</h1>
-      <p class="lead">This is a blogging site that give you, featured content or information about skill inhencement and earning.</p>
-      <hr class="my-4">
-      <p>Explore Our blogs, and we are trying to give you all the necessary informations to earn money.</p>
-      </div>
-    </div>
-    {% else %}
-    <div class="container bg-dark rounded  shadow">
-        <div class="jumbotron my-3 p-3 text-white rounded bg-dark" style="font-family:Noto Color Emoji;">
-          <h1 class="display-4 font-italic">Welcome to TipsZone!</h1>
-          <p class="lead">This is a blogging site that give you, featured content or information about skill inhencement and earning.</p>
-          <hr class="my-4">
-          <p>Explore Our blogs, and we are trying to give you all the necessary informations to earn money.</p>
-         <a href="#exblog"><button class="btn btn-primary mr-2">
-            Explore Blogs
-          </button></a>
-          </div>
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+    <!-- =======================
+Main hero START -->
+    <section class="pt-0 card-grid">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tiny-slider arrow-hover arrow-blur arrow-white arrow-round
+                        rounded-3 overflow-hidden">
+                        <div class="tiny-slider-inner"
+                            data-autoplay="true"
+                            data-hoverpause="true"
+                            data-gutter="0"
+                            data-arrow="true"
+                            data-dots="false"
+                            data-items="1">
+                            {% if user.is_authenticated %}
+                            {% for postc in allPosts reversed %}
+                            {% if forloop.counter <= 2 %}
+                            <!-- Slide 1 -->
+                            <div class="card bg-dark-overlay-5 overflow-hidden card-bg-scale h-400 text-center"
+                                style="background-image:url(/media/assets/images/blog/16by9/0{{forloop.counter}}.jpg);
+                                background-position: center left; background-size: cover;">
+                                <!-- Card Image overlay -->
+
+                                <div class="card-img-overlay d-flex align-items-center p-3 p-sm-4"> 
+                                    <div class="w-100 my-auto">
+                                        <h2 class="text-white display-5"><a href="post-single-4.html" class="btn-link text-reset fw-normal">Welcom To TipsZone! {{request.user.get_full_name}}.</a></h2>
+                                      <!-- Card category -->
+                                      <a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>Lifestyle</a>
+                                      <!-- Card title -->
+                                      <h2 class="text-white display-5"><a href="post-single-4.html" class="btn-link text-reset fw-normal">{{postc.title}}</a></h2>
+                                      <!-- Card info -->
+                                      <ul class="nav nav-divider text-white-force align-items-center justify-content-center">
+                                        <li class="nav-item">
+                                          <div class="nav-link">
+                                            <div class="d-flex align-items-center text-white position-relative">
+                                              <div class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" src="/media/11.jpg" alt="avatar">
+                                              </div>
+                                              <span class="ms-3">by <a href="#" class="stretched-link text-reset btn-link">Louis</a></span>
+                                            </div>
+                                          </div>
+                                        </li>
+                                        <li class="nav-item">{{postc.timestamp}}</li>
+                                        <li class="nav-item">5 min read</li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            {% for post in allPosts reversed %}
+                            {% if forloop.counter <= 2%}
+                            <div class="card bg-dark-overlay-5 overflow-hidden card-bg-scale h-400 text-center"
+                                style="background-image:url(/media/assets/images/blog/16by9/0{{forloop.counter}}.jpg);
+                                background-position: center left; background-size: cover;">
+                                <!-- Card Image overlay -->
+
+                                <div class="card-img-overlay d-flex align-items-center p-3 p-sm-4"> 
+                                    <div class="w-100 my-auto">
+                                        <h2 class="text-white display-5"><a href="post-single-4.html" class="btn-link text-reset fw-normal">Welcom To TipsZone!</a></h2>
+                                      <!-- Card category -->
+                                      <a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>Lifestyle</a>
+                                      <!-- Card title -->
+                                      <h2 class="text-white display-5"><a href="post-single-4.html" class="btn-link text-reset fw-normal">{{post.title}}</a></h2>
+                                      <!-- Card info -->
+                                      <ul class="nav nav-divider text-white-force align-items-center justify-content-center">
+                                        <li class="nav-item">
+                                          <div class="nav-link">
+                                            <div class="d-flex align-items-center text-white position-relative">
+                                              <div class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" src="/media/11.jpg" alt="avatar">
+                                              </div>
+                                              <span class="ms-3">by <a href="#" class="stretched-link text-reset btn-link">Louis</a></span>
+                                            </div>
+                                          </div>
+                                        </li>
+                                        <li class="nav-item">{{post.timestamp |date}}</li>
+                                        <li class="nav-item">5 min read</li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <!-- Slide 2 -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Row END -->
         </div>
-        {% endif %}
+    </section>
+    <!-- =======================
+Main hero END -->
 
-    <div class="container my-3 shadow pt-2" id="exblog">
-        <h2 style="font-family:Noto Color Emoji; margin-top:5px; font-weight:bold;">Latest blogs by TipsZone</h2><hr>
-        {% for post in allPosts  %}
-    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative ">
-        <div class="col-auto d-none d-lg-block">
-            <img src="/media/{{post.thumbnail}}" class="bd-placeholder-img" width="250" height="250" aria-label="Placeholder: Thumbnail">
-                    <title>Placeholder</title></img>
-            </svg>
-        </div>
-        <div class="col p-4 d-flex flex-column position-static" style="">
-            <strong class="d-inline-block mb-2 text-primary">Article  by {{post.author}} <span class="badge badge-secondary ">{{post.timestamp| naturaltime}}</span></strong>
-            <h3 class="mb-0"><a class="text-dark" href="/blog/{{post.slug}}">{{post.title}}</a></h3>
-            <div class="mb-1 text-muted">{{post.datetime}}</div>
-            <p class="card-text mb-auto"><div class="preview">{{post.content|safe| truncatechars:250}}</div></p>
-            <div class="my-2">
-            	<a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">Continue reading</a>
+    <!-- =======================
+Highlights START -->
+    <section class="pt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Card item START -->
+                    {% for post in allPosts reversed %}
+                    {% if forloop.counter <= 4%}
+                    <div class="card border rounded-3 up-hover p-4 mb-4">
+                        <div class="row g-3">
+                            <div class="col-lg-5">
+                                <!-- Categories -->
+                                <a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle
+                                        me-2 small fw-bold"></i>Marketing</a>
+                                <a href="#" class="badge bg-dark mb-2"><i class="fas fa-circle me-2
+                                        small fw-bold"></i>Startups</a>
+                                <!-- Title -->
+                                <h2 class="card-title">
+                                    <a href="/blog/{{post.slug}}" class="btn-link text-reset
+                                        stretched-link">{{post.title}}</a>
+                                </h2>
+                                <!-- Author info -->
+                                <div class="d-flex align-items-center position-relative mt-3">
+                                    <div class="avatar me-2">
+                                        <img class="avatar-img rounded-circle"
+                                            src="/media/11.jpg" alt="avatar">
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1"><a href="#" class="stretched-link text-reset
+                                                btn-link">Louis Ferguson</a></h5>
+                                        <ul class="nav align-items-center small">
+                                            <li class="nav-item me-3">{{post.timestamp |date}}</li>
+                                            <li class="nav-item"><i class="far fa-clock me-1"></i>5 min read</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Detail -->
+                            <div class="col-md-6 col-lg-4">
+                                <p><div class="preview">{{post.content|safe| truncatechars:250}}</div></p>
+                            </div>
+                            <!-- Image -->
+                            <div class="col-md-6 col-lg-3">
+                                <img class="rounded-3" src="/media/{{post.thumbnail}}" alt="Card
+                                    image">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <!-- Card item END -->
+                    
+
+                    <!-- Card item END -->
+                    <!-- Load more -->
+                    <a href="/blog/posts"><button type="button" class="btn btn-primary-soft w-100">Load more post
+                        <i class="bi bi-arrow-down-circle ms-2 align-middle"></i></button></a>
+                </div>
             </div>
-            
         </div>
-        
-        </div>
+    </section>
+    <!-- =======================
+Highlights END -->
 
-        {% endfor %}
+    <!-- =======================
+Adv START -->
+    <section class="p-0">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="#" class="d-block card-img-flash">
+                        <img src="/media/assets/images/adv-3.png" alt="">
+                    </a>
+                    <small class="text-end d-block mt-1">Advertisement</small>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+    <!-- =======================
+Adv END -->
+
+    <!-- =======================
+Small post START -->
+    <section class="pt-4 pb-0">
+        <div class="container">
+            <div class="row">
+                <!-- Card item START -->
+                {% for post in allPosts reversed %}
+                {% if forloop.counter <= 7 %}
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card mb-4">
+                        <!-- Card img -->
+                        <div class="card-fold position-relative">
+                            <img class="card-img" src="/media/{{post.thumbnail}}" alt="Card
+                                image">
+                        </div>
+                        <div class="card-body px-0 pt-3">
+                            <h4 class="card-title"><a href="post-single.html" class="btn-link
+                                    text-reset stretched-link fw-bold">{{post.title}}</a></h4>
+                            <!-- Card info -->
+                            <ul class="nav nav-divider align-items-center text-uppercase small">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link text-reset btn-link">Louis Ferguson</a>
+                                </li>
+                                <li class="nav-item">{{post.timestamp |date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card item END -->
+                {% endif %}
+                {% endfor %}
+                
+
+                <!-- Card item END -->
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+Small post END -->
+
+    <!-- =======================
+Tab post START -->
+    
+    <!-- =======================
+Tab post END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
 {% endblock body %}
 {% block JS %}
 <script>
-    let previews=document.getElementsByClassName('preview');
-    Array.from(previews).forEach((element)=>{
-        element.innerHTML=element.innerText;
-    })</script>
+   let previews=document.getElementsByClassName('preview');
+   Array.from(previews).forEach((element)=>{
+    element.innerHTML=element.innerText;
+})</script>
 {% endblock JS %}

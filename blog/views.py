@@ -9,9 +9,19 @@ def index(request):
     context = {'allPosts': allPosts}
     return render(request,'blog/index.html',context)
 
+def latestpost(request):
+    allPosts = Post.objects.all()
+    context = {'allPosts': allPosts}
+    return render(request,'blog/posts.html',context)
+
 def blogpost(request,slug):
+    if len(slug)>=1:
+       try:
+           Post.objects.get(slug=slug)
+       except:
+           return redirect('/blog/posts')
     post = Post.objects.filter(slug=slug).first()
-    comments = BlogComment.objects.filter(post=post)
+    comments = BlogComment.objects.filter(post=post,parent=None)
     replies= BlogComment.objects.filter(post=post).exclude(parent=None)
     replyDict={}
     for reply in replies:
@@ -30,7 +40,7 @@ def postComment(request):
         postSno = request.POST.get('postSno')
         post = Post.objects.get(sno = postSno)
         parentSno = request.POST.get("parentSno")
-        if parentSno == "":
+        if parentSno =="":
            Comment = BlogComment(comment = comment,user=user,post=post)
            Comment.save()
            messages.success(request," Your comment has been posted successfully")

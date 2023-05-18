@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+
+{% block inhead %}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+<link rel="stylesheet"
+  href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v16.0"
+  nonce="ZwlDZTuX"></script>
+{% endblock inhead %}
+
+
+{% block title %}Blogpost{% endblock title %}
+{% block CSS %}
+.commentimg{
+position: relative;
+width: 105px;
+padding-right: 15px;
+padding-left: 15px;
+}
+.commenttext{
+position: relative;
+width: 65%;
+padding-right: 15px;
+padding-left: 0px;
+}
+
+::selection{
+color: #fff;
+background: #7d2ae8;
+}
+.view-modal, .popup{
+position: absolute;
+left: 50%;
+}
+button{
+outline: none;
+cursor: pointer;
+font-weight: 500;
+border-radius: 6px;
+border: 2px solid transparent;
+transition: background 0.1s linear, border-color 0.1s linear, color 0.1s linear;
+}
+.view-modal{
+top: 15%;
+left: 90%;
+color: white;
+font-weight: bold;
+font-size: 18px;
+padding: 10px 25px;
+background: #007bff;
+transform: translate(-50%, -50%);
+}
+.popup{
+background: rgb(255, 254, 254);
+padding: 25px;
+border-radius: 15px;
+top: 10%;
+max-width: 380px;
+width: 100%;
+opacity: 0;
+pointer-events: none;
+box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+transform: translate(-50%, -50%) scale(1.2);
+transition: top 0s 0.2s ease-in-out,
+opacity 0.2s 0s ease-in-out,
+transform 0.2s 0s ease-in-out;
+}
+.popup.show{
+top: 50%;
+left: 50%;
+opacity: 1;
+pointer-events: auto;
+transform:translate(-50%, -50%) scale(1);
+transition: top 0s 0s ease-in-out,
+opacity 0.2s 0s ease-in-out,
+transform 0.2s 0s ease-in-out;
+
+}
+.popup :is(header, .icons, .field){
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.popup header{
+padding-bottom: 15px;
+border-bottom: 1px solid #ebedf9;
+}
+header span{
+font-size: 21px;
+font-weight: 600;
+}
+header .close, .icons a{
+display: flex;
+align-items: center;
+border-radius: 50%;
+justify-content: center;
+transition: all 0.3s ease-in-out;
+}
+header .close{
+color: #878787;
+font-size: 17px;
+background: #f3f3f3;
+height: 33px;
+width: 33px;
+cursor: pointer;
+}
+header .close:hover{
+background: #ebedf9;
+}
+.popup .content{
+margin: 20px 0;
+}
+.popup .icons{
+margin: 15px 0 20px 0;
+}
+.content p{
+font-size: 16px;
+}
+.content .icons a{
+height: 50px;
+width: 50px;
+font-size: 20px;
+text-decoration: none;
+border: 1px solid transparent;
+}
+.icons a i{
+transition: transform 0.3s ease-in-out;
+}
+.icons a:nth-child(1){
+color: #1877F2;
+border-color: #b7d4fb;
+}
+.icons a:nth-child(1):hover{
+background: #1877F2;
+}
+.icons a:nth-child(2){
+color: #e1306c;
+border-color: #f5bccf;
+}
+.icons a:nth-child(2):hover{
+background: #FF0000;
+}
+.icons a:nth-child(3){
+color: #25D366;
+border-color: #bef4d2;
+}
+.icons a:nth-child(3):hover{
+background: #25D366;
+}
+.icons a:nth-child(4){
+color: #46C1F6;
+border-color: #b6e7fc;
+}
+.icons a:nth-child(4):hover{
+background: #46C1F6;
+}
+.icons a:nth-child(5){
+color: #0088cc;
+border-color: #b3e6ff;
+}
+.icons a:nth-child(5):hover{
+background: #0088cc;
+}
+.icons a:hover{
+color: #fff;
+border-color: transparent;
+}
+.icons a:hover i{
+transform: scale(1.2);
+}
+.content .field{
+margin: 12px 0 -5px 0;
+height: 45px;
+border-radius: 4px;
+padding: 0 5px;
+border: 1px solid #757171;
+}
+.field.active{
+border-color: #7d2ae8;
+}
+.field i{
+width: 50px;
+font-size: 18px;
+text-align: center;
+}
+.field.active i{
+color: #7d2ae8;
+}
+.field input{
+width: 100%;
+height: 100%;
+border: none;
+outline: none;
+font-size: 15px;
+}
+.field button{
+color: #fff;
+padding: 5px 18px;
+background: #7d2ae8;
+}
+.field button:hover{
+background: #8d39fa;
+}
+{% endblock CSS %}
+{% block body %}
+{% load humanize %}
+{% load extras %}
+<div class="container my-3 mx-5 " style="padding-right: 10rem!important">
+  <div class="blog-post">
+    <h2 class="blog-post-title">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.timestamp}} by <a href="#">{{post.author}}</a></p>
+    <p>{{post.content | safe}}</p>
+    <hr>
+  </div>
+</div>
+<div class="container my-3 mx-5">
+  <h2> Comments ({{comments.count}})</h2>
+  {% if user.is_authenticated %}
+  <form action="/blog/postcomment" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleInputEmail1">Post Comment </label>
+      <input type="text" class="form-control" name="comment" placeholder="Enter
+        comment here">
+    </div>
+    <input type="hidden" name="postSno" value="{{post.sno}}">
+    <input type="hidden" name="parentSno" value="">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% else %}
+  Please login to post a comment
+  {% endif %}
+  {% for comment in comments %}
+  <div class="row my-3">
+    <div class="commentimg">
+      <img class="rounded mx-auto d-block w-100 border border-dark p-2"
+        src="/media/user.png" alt="user">
+    </div>
+    <div class="commenttext ">
+      <b> {{comment.user.username}} </b> <span class="badge badge-secondary ">{{comment.timestamp|
+        naturaltime}}</span>
+      <div>{{comment.comment}}</div>
+      <div class="reply mx-0">
+        {% if user.is_authenticated %}
+        <button class="btn btn-sm btn-primary" type="button"
+          data-toggle="collapse" data-target="#replyBox{{comment.sno}}"
+          aria-expanded="false" aria-controls="replyBox{{comment.sno}}">
+          Reply
+        </button>
+        <div class="collapse" id="replyBox{{comment.sno}}">
+          <div class="card card-body my-2">
+            <form action="/blog/postcomment" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="comment">Post a reply </label>
+                <input type="text" class="form-control" name="comment"
+                  placeholder="Enter comment here">
+                <input type="hidden" name="parentSno" value="{{comment.sno}}">
+              </div>
+              <input type="hidden" name="postSno" value="{{post.sno}}">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <button class="btn btn-sm btn-primary" type="button"
+          data-toggle="collapse" data-target="#replyBox{{comment.sno}}"
+          aria-expanded="false" aria-controls="replyBox{{comment.sno}}">
+          Login to reply
+        </button>
+        {% endif %}
+        <div class="replies my-2 ">
+          {% for reply in replyDict|get_val:comment.sno %}
+          <div class="row my-2">
+            <div class="commentimg">
+              <img class="rounded mx-4 d-block w-75 my-2 border border-dark p-2"
+                src="/media/user.png" alt="user">
+            </div>
+            <div class="commenttext">
+              <div class="col-md-11 ">
+                <b> {{reply.user.username}} </b> <span class="badge
+                  badge-secondary ">{{reply.timestamp| naturaltime}}</span>
+                <div>{{reply.comment}}</div>
+              </div>
+              <br>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="container">
+  <button class="view-modal">Share</button>
+  <div class="popup">
+    <header>
+      <span>Share</span>
+      <div class="close"><i class="uil uil-times"></i></div>
+    </header>
+    <div class="content">
+      <p>Share this link via</p>
+      <ul class="icons">
+        <div class="fb-share-button"
+          data-href="https://developers.facebook.com/docs/plugins/"
+          data-layout="button_count" data-size="small"><a target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:8000/blog/Learn-django"><i
+              class="fab fa-facebook-f"></i></a></div>
+        <a href="#"><i class="fab fa-pinterest"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-telegram-plane"></i></a>
+      </ul>
+      <p>Or copy link</p>
+      <div class="field">
+        <i class="url-icon uil uil-link"></i>
+        <input type="text" readonly
+          value="http://127.0.0.1:8000/blog/{{post.slug}}">
+        <button>Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body%}
+{% block JS %}
+<script>
+  const viewBtn = document.querySelector(".view-modal"),
+  popup = document.querySelector(".popup"),
+  close = popup.querySelector(".close"),
+  field = popup.querySelector(".field"),
+  input = field.querySelector("input"),
+  copy = field.querySelector("button");
+
+  viewBtn.onclick = ()=>{ 
+    popup.classList.toggle("show");
+  }
+  close.onclick = ()=>{
+    viewBtn.click();
+  }
+
+  copy.onclick = ()=>{
+    input.select(); //select input value
+    if(document.execCommand("copy")){ //if the selected text is copied
+      field.classList.add("active");
+      copy.innerText = "Copied";
+      setTimeout(()=>{
+        window.getSelection().removeAllRanges(); //remove selection from page
+        field.classList.remove("active");
+        copy.innerText = "Copy";
+      }, 3000);
+    }
+  }
+</script>
+{% endblock JS %}
